@@ -1,0 +1,21 @@
+services:
+  cpp-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: cpp-dev-container
+
+    volumes:
+      - .:/workspace
+
+    working_dir: /workspace
+
+    stdin_open: true
+    tty: true
+
+    security_opt:
+      - seccomp:unconfined
+
+    cap_add:
+      - SYS_PTRACE

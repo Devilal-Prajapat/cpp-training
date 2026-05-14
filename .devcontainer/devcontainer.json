@@ -1,0 +1,19 @@
+{
+    "name": "WSL CPP Container",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "cpp-dev",
+    "workspaceFolder": "/workspace",
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools",
+                "ms-vscode.cmake-tools",
+                "llvm-vs-code-extensions.vscode-clangd",
+                "twxs.cmake",
+                "ms-vscode.cpptools-extension-pack",
+                "ms-vscode-remote.remote-containers"
+            ]
+        }
+    }
+}

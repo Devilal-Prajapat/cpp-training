@@ -1,0 +1,5 @@
+{
+    "dev.containers.dockerPath": "/usr/bin/docker",
+    "remote.containers.dockerPath": "/usr/bin/docker",
+    "terminal.integrated.defaultProfile.linux": "bash"
+}

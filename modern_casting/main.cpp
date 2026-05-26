@@ -120,9 +120,7 @@ int main(void){
     std::cout<< "before "<< (*i_ptr) << std::endl;
     *i_ptr = 30;
     std::cout<< "before "<< (*i_ptr) << std::endl;
-
-
-
+    
     return 0;
 }
 

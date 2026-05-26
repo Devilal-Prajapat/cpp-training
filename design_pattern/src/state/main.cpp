@@ -1,7 +1,7 @@
 #include <iostream>
 #include <chrono>
 #include <memory>
-
+#include <thread>
 class TemperatureSensor{
 public:
     float readTemperature(){
@@ -58,7 +58,6 @@ public:
 class startupState : public SystemState{
 public:
     void handle(FirmwareModule& fm) override;
-
     const char *getName(){
         return "Start Up State";
     }
@@ -95,6 +94,9 @@ public:
 
 void startupState::handle(FirmwareModule& fm){
     fm.loger.log("Initializing system");
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    fm.loger.log("System initialized");
+    fm.change_state(std::make_unique<ReadState>());
 };
 
 void ReadState::handle(FirmwareModule& fm){
@@ -103,14 +105,20 @@ void ReadState::handle(FirmwareModule& fm){
     float pressure = fm.pressure_sensor.readPressure();
     std::cout<< "temperature "<<temp << " pressure "<<pressure<<std::endl;
     fm.loger.log("Read data Done");
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+    fm.change_state(std::make_unique<ShutDown>());
 };
 
 void FaultState::handle(FirmwareModule& fm){
     fm.loger.log("Fault state");
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+    fm.change_state(std::make_unique<ShutDown>());
 };
 
 void ShutDown::handle(FirmwareModule& fm){
     fm.loger.log("shutdown state");
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+    fm.change_state(std::make_unique<startupState>());
 };
 
 
@@ -118,13 +126,16 @@ int main()
 {
     FirmwareModule fm;
     fm.change_state(std::make_unique<startupState>());
-    fm.run();
-    fm.change_state(std::make_unique<ReadState>());
-    fm.run();
-    fm.change_state(std::make_unique<FaultState>());
-    fm.run();
-    fm.change_state(std::make_unique<ShutDown>());
-    fm.run();
+    // fm.run();
+    // fm.change_state(std::make_unique<ReadState>());
+    // fm.run();
+    // fm.change_state(std::make_unique<FaultState>());
+    // fm.run();
+    // fm.change_state(std::make_unique<ShutDown>());
+    // fm.run();
+    while(1){
+        fm.run();
+    }
 }
 
 // mkdir build
